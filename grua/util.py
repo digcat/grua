@@ -1,17 +1,20 @@
 
 import subprocess, re, os
 
-global G
+
 
 def announce(msg, ignore_quiet=False):
+    global G
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print "\n>>> " + msg + "\n"
 
 def mention(msg, ignore_quiet=False):
+    global G
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print ">> " + msg
 
 def note(msg, ignore_quiet=False):
+    global G
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print "> " + msg
 

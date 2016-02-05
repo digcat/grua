@@ -5,9 +5,9 @@ from subprocess import call
 from util import announce, mention, note
 from templater import get_value, parse_template
 
-global G
 
 def get_image(config):
+    global G
     if config.has_key('image'):
         image = get_value(config, 'image')  # .split(':')[0]
     elif config.has_key('tag'):
@@ -18,6 +18,7 @@ def get_image(config):
     return image
 
 def get_container(name):
+    global G
     return G.get('project') + "_" + name
 
 
@@ -30,6 +31,7 @@ def inspect_container(container, go_template):
 
 
 def fill_container(container, config):
+    global G
     announce("Filling "  + container + " container")
     if config.has_key('build'):
         build = get_value(config, 'build')
@@ -68,6 +70,7 @@ def fill_container(container, config):
 
 
 def wait_for_up(container, config):
+    global G
     upwhen = config['upwhen']
     timeout = 30
     if upwhen.has_key('timeout'):
@@ -125,6 +128,7 @@ def wait_for_up(container, config):
 
 
 def stack_container(container, config):
+    global G
     announce("Stacking " + container + " container")
     if config.has_key('run') and not config['run']:
         note ("container has 'run' key set to " + str(config['run']) + ", skipping")

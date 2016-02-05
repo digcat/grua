@@ -1,8 +1,7 @@
 
-global G
-G.set('dependencies', {})
 
 def sort_containers():
+    global G
     deps = G.get('dependencies')
     tups = list()
     for dep in deps.keys():
@@ -48,6 +47,7 @@ def topological_sort(source):
 
 
 def calc_deps(container, config):
+    global G
     deps = G.get('dependencies')
     for key in config[container]:
         if not deps.has_key(container):

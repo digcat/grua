@@ -2,6 +2,7 @@
 
 from grua import grua
 from grua.deps import calc_deps, sort_containers
+from grua.util import find_bridge_ip
 
 import yaml, sys, errno, os
 
@@ -10,7 +11,7 @@ args = sys.argv[1:]
 
 
 # global state
-class G:
+class Global:
     def __init__(self):
         self.dict={}
 
@@ -20,6 +21,10 @@ class G:
     def get(self,key):
         return self.dict[key]
 
+G = Global()
+
+G.set('dependencies', {})
+G.set('bridgeIp', find_bridge_ip())
 
 # grua.yamlpath = grua.find_yaml_location()
 # Project = 'grua'  # gets replaced by 'project' value in 'global' from grua.yaml
@@ -30,7 +35,7 @@ class G:
 G.set('yamlPath', grua.find_yaml_location())
 G.set('project', 'grua')  # gets replaced by 'project' value in 'global' from grua.yaml
 G.set('gruaBase', '/var/lib/grua')
-G.set('volumePath'), G.get('gruaBase') + '/volumes' # replaced by 'global/volumepath' in grua.yaml
+G.set('volumePath', G.get('gruaBase') + '/volumes') # replaced by 'global/volumepath' in grua.yaml
 G.set('configPath', os.environ["HOME"] + "/.grua")
 
 
@@ -38,7 +43,7 @@ os.chdir(G.get('yamlPath'))
 
 
 
-with open(grua.yamlpath + "/grua.yaml", 'r') as stream:
+with open(G.get('yamlPath') + "/grua.yaml", 'r') as stream:
     grua.config = yaml.load(stream)
     if grua.config.has_key('global'):
         if grua.config['global'].has_key('project'):

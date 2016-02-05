@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from collections import deque
 
-from util import  find_bridge_ip, touch
+from util import touch
 from docker import *
 
 
@@ -12,12 +12,11 @@ sorted_run_deps = []
 UnstackTimeout = 15
 Dependencies = dict()
 
-global G
 
-G.set('bridgeIp', find_bridge_ip())
 
 
 def edit_yaml():
+    global G
     announce("Editing " + G.get('yamlPath'))
     command = [os.environ['EDITOR'], G.get('yamlPath') + '/grua.yaml']
     note(" ".join(command))
@@ -25,6 +24,7 @@ def edit_yaml():
 
 
 def edit_dockerfile(container):
+    global G
     announce("Editing dockerfile for " + container)
     command = [os.environ['EDITOR'], G.get('yamlPath') + '/' + container + "/Dockerfile"]
     note(" ".join(command))

@@ -1,9 +1,6 @@
 
 import os
 
-from docker import inspect_container
-
-global G
 
 
 def get_value(dict, key):
@@ -13,6 +10,9 @@ def get_value(dict, key):
 
 
 def tpl_lookup(template):
+
+    from docker import inspect_container
+
     words = template.split()
     selecta = words[0]
 
