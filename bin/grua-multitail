@@ -1,0 +1,15 @@
+#!/bin/sh
+# http://www.thegeekstuff.com/2009/09/multitail-to-view-tail-f-output-of-multiple-log-files-in-one-terminal/
+# modified for docker 
+
+# When this exits, exit all back ground process also.
+trap 'kill $(jobs -p)' EXIT
+
+# iterate through the each given file names,
+for container in "$@"
+do
+	docker logs -f $container | awk -v container="$container" '{ print container $0 }' &
+done
+
+# wait .. until CTRL+C
+wait

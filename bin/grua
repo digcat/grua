@@ -1,36 +1,71 @@
 #!/usr/bin/env python
 
 from grua import grua
+from grua.deps import calc_deps, sort_containers
+
 import yaml, sys, errno, os
 
 args = sys.argv[1:]
 
-grua.yamlpath = grua.find_yaml_location()
 
-os.chdir(grua.yamlpath)
+
+# global state
+class G:
+    def __init__(self):
+        self.dict={}
+
+    def set(self, key, val):
+        self.dict[key] = val
+
+    def get(self,key):
+        return self.dict[key]
+
+
+# grua.yamlpath = grua.find_yaml_location()
+# Project = 'grua'  # gets replaced by 'project' value in 'global' from grua.yaml
+# GruaBase = '/var/lib/grua'
+# VolumePath = GruaBase + '/volumes' # replaced by 'global/volumepath' in grua.yaml
+# ConfigPath = os.environ["HOME"] + "/.grua"
+
+G.set('yamlPath', grua.find_yaml_location())
+G.set('project', 'grua')  # gets replaced by 'project' value in 'global' from grua.yaml
+G.set('gruaBase', '/var/lib/grua')
+G.set('volumePath'), G.get('gruaBase') + '/volumes' # replaced by 'global/volumepath' in grua.yaml
+G.set('configPath', os.environ["HOME"] + "/.grua")
+
+
+os.chdir(G.get('yamlPath'))
+
 
 
 with open(grua.yamlpath + "/grua.yaml", 'r') as stream:
     grua.config = yaml.load(stream)
     if grua.config.has_key('global'):
         if grua.config['global'].has_key('project'):
-            grua.Project = grua.config['global']['project']
+            # grua.Project = grua.config['global']['project']
+            G.set('project', grua.config['global']['project'])
         if grua.config['global'].has_key('volumepath'):
-            grua.VolumePath = grua.config['global']['volumepath']
+            # grua.VolumePath = grua.config['global']['volumepath']
+            G.set('volumePath', grua.config['global']['volumepath'])
     for container in grua.config:
-        grua.calc_deps(container, grua.config)
+        calc_deps(container, grua.config)
 
+
+configPath = G.get('configPath')
+project = G.get('project')
 
 # set up configuration path
 try:
-    os.makedirs(grua.ConfigPath + "/" + grua.Project)
+    os.makedirs(configPath + "/" + project)
 except OSError as exc: # Python >2.5
-    if exc.errno == errno.EEXIST and os.path.isdir(grua.ConfigPath + "/" + grua.Project):
+    if exc.errno == errno.EEXIST and os.path.isdir(configPath + "/" + project):
         pass
     else: raise
 
 
 grua.sorted_run_deps = grua.sort_containers()
+
+G.set('sortedRunDeps', sort_containers())
 
 grua.Mode = grua.get_mode()
 
@@ -51,5 +86,5 @@ else:
         print(exc_type, fname, exc_tb.tb_lineno)
         print "!!!"
         print
-        #raise
+        raise
         sys.exit(99)

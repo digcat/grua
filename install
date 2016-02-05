@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e
+
 cd "`dirname $0`"
 sudo python setup.py install
 sudo cp -v bin/grua /usr/local/bin
+sudo cp -v bin/grua-multitail /usr/local/bin
