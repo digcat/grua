@@ -1,10 +1,11 @@
 import os
 
 
-def get_value(dict, key):
-    if not dict.has_key(key):
+def get_value(dicti, key):
+    #if not dicti.has_key(key):
+    if key not in dicti:
         return ''
-    return parse_template(dict[key])
+    return parse_template(dicti[key])
 
 
 def tpl_lookup(template):
