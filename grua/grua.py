@@ -103,7 +103,8 @@ def process_command(command_list):
             which = commands
     else:
         deps = sorted_run_deps
-        deps.remove('global')
+        if 'global' in deps:
+            deps.remove('global')
         which = deps
 
     if command == 'fill':
