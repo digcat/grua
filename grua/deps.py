@@ -1,4 +1,4 @@
-from grua.globall import Global
+from .globall import Global
 
 G = Global.Instance()
 

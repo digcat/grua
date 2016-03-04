@@ -3,9 +3,8 @@ from subprocess import call
 
 from util import announce, mention, note
 from templater import get_value, parse_template
-from grua.globall import Global
+from globall import Global
 
-G = Global.Instance()
 
 def get_image(config):
     G = Global.Instance()
