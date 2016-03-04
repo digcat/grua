@@ -1,5 +1,5 @@
 # global state
-from grua.singleton import Singleton
+from singleton import Singleton
 
 
 @Singleton
