@@ -1,6 +1,4 @@
-
 import os
-
 
 
 def get_value(dict, key):
@@ -10,7 +8,6 @@ def get_value(dict, key):
 
 
 def tpl_lookup(template):
-
     from docker import inspect_container
 
     words = template.split()
@@ -25,7 +22,7 @@ def tpl_lookup(template):
         varname = words.pop(0)
 
         # strip the first pipe character if found
-        if("|" in words):
+        if ("|" in words):
             words.remove('|')
 
         # use remaining words if any as default if the varname not found in the environment
@@ -36,7 +33,6 @@ def tpl_lookup(template):
             value = default
 
         return value
-
 
     if selecta == "INSPECT":
         container = words[0]
@@ -52,7 +48,6 @@ def tpl_lookup(template):
             return G.get('project')
 
 
-
 def parse_template(tpl):
     a1 = str(tpl).split("<%")
     if len(a1) == 1:
@@ -65,6 +60,5 @@ def parse_template(tpl):
                 out += a2[j]
             else:
                 out += tpl_lookup(a2[j].strip())
-
 
     return out

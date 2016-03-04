@@ -1,6 +1,4 @@
-
 import subprocess, re, os
-
 
 
 def announce(msg, ignore_quiet=False):
@@ -8,15 +6,18 @@ def announce(msg, ignore_quiet=False):
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print "\n>>> " + msg + "\n"
 
+
 def mention(msg, ignore_quiet=False):
     global G
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print ">> " + msg
 
+
 def note(msg, ignore_quiet=False):
     global G
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print "> " + msg
+
 
 def find_bridge_ip():
     done = False

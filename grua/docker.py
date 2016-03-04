@@ -1,4 +1,3 @@
-
 import subprocess, os, shutil, time, shlex
 from subprocess import call
 
@@ -17,22 +16,22 @@ def get_image(config):
 
     return image
 
+
 def get_container(name):
     global G
     return G.get('project') + "_" + name
 
 
-
 def inspect_container(container, go_template):
     command = ['docker', 'inspect', '-f', (" ").join(go_template), get_container(container)]
 
-    #1  note(" ".join(command))
+    # 1  note(" ".join(command))
     return subprocess.check_output(command, stderr=subprocess.STDOUT).strip()
 
 
 def fill_container(container, config):
     global G
-    announce("Filling "  + container + " container")
+    announce("Filling " + container + " container")
     if config.has_key('build'):
         build = get_value(config, 'build')
         tag = G.get('project') + "/" + build
@@ -44,7 +43,7 @@ def fill_container(container, config):
         if build[:4] == 'git:':
             if not config.has_key('tag'):
                 raise Exception("If you are using a git repo for 'build' you must also specify 'tag'")
-            tag = get_value(config,'tag')
+            tag = get_value(config, 'tag')
 
             url = build[4:]
             print "Cloning " + tag + " from " + url
@@ -54,18 +53,18 @@ def fill_container(container, config):
                 shutil.rmtree(dir)
 
             command = ['git', 'clone', url, dir]
-            note (" ".join(command))
+            note(" ".join(command))
             call(command)
             target = dir
 
         mention("building " + container + " ( " + target + " ) " + " with tag '" + tag + "'")
         command = ['docker', 'build', '-t', tag, target]
-        note (" ".join(command))
+        note(" ".join(command))
         call(command)
     else:
         mention(container + " uses an image. Pulling " + get_value(config, 'image'))
         command = ['docker', 'pull', get_value(config, 'image')]
-        note (" ".join(command))
+        note(" ".join(command))
         call(command)
 
 
@@ -80,11 +79,14 @@ def wait_for_up(container, config):
         logmsg = get_value(upwhen, 'logmsg')
 
         if upwhen.has_key('logfile'):
-            logfile = G.get('volumePath') + "/" + G.get('project') + "/" + container + "/" + get_value(upwhen, 'logfile')
-            mention("Waiting up to " + str(timeout) + " seconds for '" + logmsg + "' in '" + logfile + "' to indicate that " + container + " is stacked")
+            logfile = G.get('volumePath') + "/" + G.get('project') + "/" + container + "/" + get_value(upwhen,
+                                                                                                       'logfile')
+            mention("Waiting up to " + str(
+                timeout) + " seconds for '" + logmsg + "' in '" + logfile + "' to indicate that " + container + " is stacked")
 
         else:
-            mention("Waiting up to " + str(timeout) + " seconds for '" + logmsg + "' to indicate that " + container + " is stacked")
+            mention("Waiting up to " + str(
+                timeout) + " seconds for '" + logmsg + "' to indicate that " + container + " is stacked")
 
         waited = 0
         ok = False
@@ -101,14 +103,13 @@ def wait_for_up(container, config):
                     if os._exists(logfile):
                         command = ["tail", logfile]
 
-
             # command may not have been set yet if the file didn't exist
             if 'command' in locals():
                 try:
                     output = subprocess.check_output(command, stderr=subprocess.STDOUT)
                 except:
                     pass
-            #print output
+            # print output
 
             if 'output' in locals() and output.find(logmsg) > -1:
                 ok = True
@@ -125,13 +126,11 @@ def wait_for_up(container, config):
         time.sleep(int(upwhen['sleep']))
 
 
-
-
 def stack_container(container, config):
     global G
     announce("Stacking " + container + " container")
     if config.has_key('run') and not config['run']:
-        note ("container has 'run' key set to " + str(config['run']) + ", skipping")
+        note("container has 'run' key set to " + str(config['run']) + ", skipping")
         return
 
     command = ['docker', 'run', '-d', '--name', get_container(container)]
@@ -142,7 +141,7 @@ def stack_container(container, config):
 
     if config.has_key('hostname'):
         command = command + ['--hostname', get_value(config, 'hostname')]
-    #else:
+    # else:
     #    command = command + ['--hostname', container]
 
     if config.has_key('dns'):
@@ -150,11 +149,12 @@ def stack_container(container, config):
 
     if config.has_key('volumes'):
         for volumespec in config['volumes']:
-            volumespec_parsed =  parse_template(volumespec)
+            volumespec_parsed = parse_template(volumespec)
             if volumespec_parsed.startswith("/"):
                 command = command + ['-v', volumespec_parsed]
             else:
-                command = command + ['-v', G.get('volumePath') + "/" + G.get('project') + "/" + container + "/" + volumespec_parsed]
+                command = command + ['-v', G.get('volumePath') + "/" + G.get(
+                    'project') + "/" + container + "/" + volumespec_parsed]
 
     if config.has_key('ports'):
         for portspec in config['ports']:
@@ -183,11 +183,11 @@ def stack_container(container, config):
 def unstack_container(container):
     announce("Unstacking " + container + " container")
     command = ['docker', 'stop', get_container(container)]
-    note (" ".join(command))
+    note(" ".join(command))
     call(command)
 
     command = ['docker', 'rm', '--force', get_container(container)]
-    note (" ".join(command))
+    note(" ".join(command))
     call(command)
 
 
@@ -203,8 +203,9 @@ def container_status(container):
     except subprocess.CalledProcessError:
         output = "_ unstacked _"
 
-    ignore_quiet=True
+    ignore_quiet = True
     mention(container + ": " + output, ignore_quiet),
+
 
 def empty_container(container, config):
     announce("Emptying image " + container)
@@ -215,7 +216,7 @@ def empty_container(container, config):
 
 def enter_container(commands):
     which = commands.popleft()
-    run=["/bin/bash"]
+    run = ["/bin/bash"]
     if len(commands) > 0:
         run = list(commands)
     announce("Entering '" + which + "' container and running: " + str(run))

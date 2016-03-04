@@ -9,17 +9,17 @@ import yaml, sys, errno, os
 args = sys.argv[1:]
 
 
-
 # global state
 class Global:
     def __init__(self):
-        self.dict={}
+        self.dict = {}
 
     def set(self, key, val):
         self.dict[key] = val
 
-    def get(self,key):
+    def get(self, key):
         return self.dict[key]
+
 
 G = Global()
 
@@ -35,13 +35,10 @@ G.set('bridgeIp', find_bridge_ip())
 G.set('yamlPath', grua.find_yaml_location())
 G.set('project', 'grua')  # gets replaced by 'project' value in 'global' from grua.yaml
 G.set('gruaBase', '/var/lib/grua')
-G.set('volumePath', G.get('gruaBase') + '/volumes') # replaced by 'global/volumepath' in grua.yaml
+G.set('volumePath', G.get('gruaBase') + '/volumes')  # replaced by 'global/volumepath' in grua.yaml
 G.set('configPath', os.environ["HOME"] + "/.grua")
 
-
 os.chdir(G.get('yamlPath'))
-
-
 
 with open(G.get('yamlPath') + "/grua.yaml", 'r') as stream:
     grua.config = yaml.load(stream)
@@ -55,18 +52,17 @@ with open(G.get('yamlPath') + "/grua.yaml", 'r') as stream:
     for container in grua.config:
         calc_deps(container, grua.config)
 
-
 configPath = G.get('configPath')
 project = G.get('project')
 
 # set up configuration path
 try:
     os.makedirs(configPath + "/" + project)
-except OSError as exc: # Python >2.5
+except OSError as exc:  # Python >2.5
     if exc.errno == errno.EEXIST and os.path.isdir(configPath + "/" + project):
         pass
-    else: raise
-
+    else:
+        raise
 
 grua.sorted_run_deps = grua.sort_containers()
 
@@ -74,7 +70,7 @@ G.set('sortedRunDeps', sort_containers())
 
 grua.Mode = grua.get_mode()
 
-if len(args)==0:
+if len(args) == 0:
     grua.usage()
 else:
     try:

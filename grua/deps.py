@@ -1,5 +1,3 @@
-
-
 def sort_containers():
     global G
     deps = G.get('dependencies')
@@ -40,10 +38,6 @@ def topological_sort(source):
             raise ValueError("cyclic or missing dependency detected: %r" % (next_pending,))
         pending = next_pending
         emitted = next_emitted
-
-
-
-
 
 
 def calc_deps(container, config):

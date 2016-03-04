@@ -4,15 +4,12 @@ from collections import deque
 from util import touch
 from docker import *
 
-
 yaml_path = "."
 config = {}
 sorted_run_deps = []
 
 UnstackTimeout = 15
 Dependencies = dict()
-
-
 
 
 def edit_yaml():
@@ -37,7 +34,6 @@ def print_mode():
     print G.get('modeNoisy') + ", " + G.get('modeDestructive')
 
 
-
 def find_yaml_location():
     pathname = os.path.curdir
     while pathname != '/':
@@ -47,13 +43,14 @@ def find_yaml_location():
 
     raise (IOError("grua.yaml file not found"))
 
+
 def get_mode():
-    noisy='noisy'
-    destructive='destructive'
+    noisy = 'noisy'
+    destructive = 'destructive'
     if os.path.isfile(G.get('configPath') + "/" + G.get('project') + "/quiet"):
-        noisy='quiet'
+        noisy = 'quiet'
     if os.path.isfile(G.get('configPath') + "/" + G.get('project') + "/conservative"):
-        destructive='conservative'
+        destructive = 'conservative'
 
     G.set('modeNoisy', noisy)
     G.set('modeDestructive', destructive)
@@ -80,11 +77,9 @@ def usage():
     print "   grua editd\t\tEdit Dockerfile(s) from within subfolder"
     print
     print "   grua mode\t\tSet operating mode"
-    print 
-    print "> grua mode is currently: " + G.get('modeNoisy') + ", " + G.get('modeDestructive') 
-    print 
-
-
+    print
+    print "> grua mode is currently: " + G.get('modeNoisy') + ", " + G.get('modeDestructive')
+    print
 
 
 def process_command(command_list):
@@ -95,7 +90,7 @@ def process_command(command_list):
     command = commands.popleft()
 
     if len(commands) > 0:
-        #which = [commands.popleft()]
+        # which = [commands.popleft()]
         # exclude here commands which cannot take multiple container names but instead take further args
         if command != "enter":
             which = commands
@@ -149,24 +144,24 @@ def process_command(command_list):
     elif command == "refill":
         for container in which:
             unstack_container(container)
-        if G.get('modeDestructive')=='destructive':
+        if G.get('modeDestructive') == 'destructive':
             empty_container(container, config[container])
         fill_container(container, config[container])
 
     elif command == "enter":
-        #if len(which) > 1:
+        # if len(which) > 1:
         #    raise(Exception("You may only enter one container at a time. Please provide container name"))
 
         enter_container(commands)
 
     elif command == "refstk":
         if len(which) > 1:
-            raise(Exception("You may only refstk one container at a time. Please provide container name"))
+            raise (Exception("You may only refstk one container at a time. Please provide container name"))
 
         container = which[0]
 
         unstack_container(container)
-        if G.get('modeDestructive')=='destructive':
+        if G.get('modeDestructive') == 'destructive':
             empty_container(container, config[container])
         fill_container(container, config[container])
         stack_container(container, config[container])
@@ -180,7 +175,7 @@ def process_command(command_list):
                 edit_dockerfile(container)
 
     elif command == "mode":
-        MODE_USAGE="Mode can either be 'noisy', 'quiet', 'destructive', 'conservative'"
+        MODE_USAGE = "Mode can either be 'noisy', 'quiet', 'destructive', 'conservative'"
         if len(command_list) == 1:
             print_mode()
             return
@@ -214,4 +209,3 @@ def process_command(command_list):
 
     else:
         raise Exception("Unknown command '" + command + "'")
-
