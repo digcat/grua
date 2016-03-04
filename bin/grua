@@ -62,6 +62,8 @@ def setup():
 
 setup()
 
+grua.deps.G=G
+
 if len(args) == 0:
     grua.usage()
 else:
