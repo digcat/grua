@@ -55,7 +55,7 @@ def setup():
         else:
             raise
 
-    grua.sorted_run_deps = grua.sort_containers()
+    # grua.sorted_run_deps = grua.sort_containers()
 
     G.set('sortedRunDeps', sort_containers())
 
