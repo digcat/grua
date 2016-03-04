@@ -3,7 +3,7 @@ from collections import deque
 
 from util import touch
 from docker import *
-from grua.globall import Global
+from globall import Global
 
 G = Global.Instance()
 
