@@ -1,4 +1,7 @@
 import os
+from grua.globall import Global
+
+G = Global.Instance()
 
 
 def get_value(dicti, key):

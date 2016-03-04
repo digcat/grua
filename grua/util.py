@@ -1,5 +1,8 @@
 import subprocess, re, os
 
+from grua.globall import Global
+
+G = Global.Instance()
 
 def announce(msg, ignore_quiet=False):
     global G

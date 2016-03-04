@@ -1,4 +1,8 @@
 # global state
+from grua.singleton import Singleton
+
+
+@Singleton
 class Global:
     def __init__(self):
         self._state = {}
@@ -9,4 +13,4 @@ class Global:
     def get(self, key):
         return self._state[key]
 
-G = Global()
+G = Global.Instance()

@@ -1,4 +1,6 @@
+from grua.globall import Global
 
+G = Global.Instance()
 
 def sort_containers():
     global G
