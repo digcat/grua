@@ -1,3 +1,4 @@
+
 def sort_containers():
     global G
     deps = G.get('dependencies')
