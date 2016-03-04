@@ -11,6 +11,8 @@ sorted_run_deps = []
 UnstackTimeout = 15
 Dependencies = dict()
 
+G = {}
+
 
 def edit_yaml():
     global G
