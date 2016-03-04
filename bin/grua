@@ -3,7 +3,7 @@
 from grua import grua
 from grua.deps import calc_deps, sort_containers
 from grua.util import find_bridge_ip
-from grua.globall import G
+from grua.globall import Global
 
 import yaml, sys, errno, os
 
@@ -11,6 +11,8 @@ args = sys.argv[1:]
 
 
 def setup():
+
+    G = Global.Instance()
 
     G.set('dependencies', {})
     G.set('bridgeIp', find_bridge_ip())
@@ -62,7 +64,6 @@ def setup():
 
 setup()
 
-grua.deps.G=G
 
 if len(args) == 0:
     grua.usage()

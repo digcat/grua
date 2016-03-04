@@ -8,7 +8,7 @@ from grua.globall import Global
 G = Global.Instance()
 
 def get_image(config):
-    #global G
+    G = Global.Instance()
     if config.has_key('image'):
         image = get_value(config, 'image')  # .split(':')[0]
     elif config.has_key('tag'):
@@ -20,7 +20,7 @@ def get_image(config):
 
 
 def get_container(name):
-    #global G
+    G = Global.Instance()
     return G.get('project') + "_" + name
 
 
@@ -32,7 +32,7 @@ def inspect_container(container, go_template):
 
 
 def fill_container(container, config):
-    global G
+    G = Global.Instance()
     announce("Filling " + container + " container")
     if config.has_key('build'):
         build = get_value(config, 'build')
@@ -71,7 +71,7 @@ def fill_container(container, config):
 
 
 def wait_for_up(container, config):
-    global G
+    G = Global.Instance()
     upwhen = config['upwhen']
     timeout = 30
     if upwhen.has_key('timeout'):
@@ -129,7 +129,7 @@ def wait_for_up(container, config):
 
 
 def stack_container(container, config):
-    global G
+    G = Global.Instance()
     announce("Stacking " + container + " container")
     if config.has_key('run') and not config['run']:
         note("container has 'run' key set to " + str(config['run']) + ", skipping")

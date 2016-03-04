@@ -16,7 +16,7 @@ Dependencies = dict()
 
 
 def edit_yaml():
-    global G
+    G = Global.Instance()
     announce("Editing " + G.get('yamlPath'))
     command = [os.environ['EDITOR'], G.get('yamlPath') + '/grua.yaml']
     note(" ".join(command))
@@ -24,7 +24,7 @@ def edit_yaml():
 
 
 def edit_dockerfile(container):
-    global G
+    G = Global.Instance()
     announce("Editing dockerfile for " + container)
     command = [os.environ['EDITOR'], G.get('yamlPath') + '/' + container + "/Dockerfile"]
     note(" ".join(command))
@@ -32,6 +32,7 @@ def edit_dockerfile(container):
 
 
 def print_mode():
+    G = Global.Instance()
     # Mode = get_mode()
     # print G.get('modeNoisy') + ", " + G.get('modeDestructive')
     print G.get('modeNoisy') + ", " + G.get('modeDestructive')
@@ -48,6 +49,7 @@ def find_yaml_location():
 
 
 def get_mode():
+    G = Global.Instance()
     noisy = 'noisy'
     destructive = 'destructive'
     if os.path.isfile(G.get('configPath') + "/" + G.get('project') + "/quiet"):
@@ -86,6 +88,8 @@ def usage():
 
 
 def process_command(command_list):
+    G = Global.Instance()
+
     get_mode()
 
     commands = deque(command_list)

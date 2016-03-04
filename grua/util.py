@@ -4,20 +4,21 @@ from grua.globall import Global
 
 G = Global.Instance()
 
+
 def announce(msg, ignore_quiet=False):
-    global G
+    G = Global.Instance()
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print "\n>>> " + msg + "\n"
 
 
 def mention(msg, ignore_quiet=False):
-    global G
+    G = Global.Instance()
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print ">> " + msg
 
 
 def note(msg, ignore_quiet=False):
-    global G
+    G = Global.Instance()
     if G.get('modeNoisy') == 'noisy' or ignore_quiet:
         print "> " + msg
 
