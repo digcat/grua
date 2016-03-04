@@ -1,5 +1,4 @@
 
-from globall import G
 
 def sort_containers():
     global G
