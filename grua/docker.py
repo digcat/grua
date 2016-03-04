@@ -6,7 +6,7 @@ from templater import get_value, parse_template
 
 
 def get_image(config):
-    global G
+    #global G
     if config.has_key('image'):
         image = get_value(config, 'image')  # .split(':')[0]
     elif config.has_key('tag'):
@@ -18,12 +18,12 @@ def get_image(config):
 
 
 def get_container(name):
-    global G
+    #global G
     return G.get('project') + "_" + name
 
 
 def inspect_container(container, go_template):
-    command = ['docker', 'inspect', '-f', (" ").join(go_template), get_container(container)]
+    command = ['docker', 'inspect', '-f', " ".join(go_template), get_container(container)]
 
     # 1  note(" ".join(command))
     return subprocess.check_output(command, stderr=subprocess.STDOUT).strip()

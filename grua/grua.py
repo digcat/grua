@@ -3,6 +3,7 @@ from collections import deque
 
 from util import touch
 from docker import *
+from globall import G
 
 yaml_path = "."
 config = {}

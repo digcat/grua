@@ -3,28 +3,14 @@
 from grua import grua
 from grua.deps import calc_deps, sort_containers
 from grua.util import find_bridge_ip
+from grua.globall import G
 
 import yaml, sys, errno, os
 
 args = sys.argv[1:]
 
 
-# global state
-class Global:
-    def __init__(self):
-        self.dict = {}
-
-    def set(self, key, val):
-        self.dict[key] = val
-
-    def get(self, key):
-        return self.dict[key]
-
-
 def setup():
-
-    global G
-    G = Global()
 
     G.set('dependencies', {})
     G.set('bridgeIp', find_bridge_ip())
@@ -72,6 +58,7 @@ def setup():
     G.set('sortedRunDeps', sort_containers())
 
     grua.Mode = grua.get_mode()
+
 
 setup()
 
