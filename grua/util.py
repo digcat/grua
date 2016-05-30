@@ -8,19 +8,19 @@ from mem import mem
 def announce(msg, ignore_quiet=False):
     if mem.Mode['noisy'] == 'noisy' or ignore_quiet:
         if not mem.quiet:
-            print ( "\n>>> " + msg + "\n" )
+            print ( "\n>>> " + msg + "\n",end="" )
 
 
 def mention(msg, ignore_quiet=False):
     if mem.Mode['noisy'] == 'noisy' or ignore_quiet:
         if not mem.quiet:
-            print ( ">> " + msg )
+            print ( ">> " + msg, end="" )
 
 
 def note(msg, ignore_quiet=False):
     if mem.Mode['noisy'] == 'noisy' or ignore_quiet:
         if not mem.quiet:
-            print ( "> " + msg )
+            print ( "> " + msg, end="" )
 
 
 def quietcall(command):
@@ -45,7 +45,7 @@ def find_bridge_ip():
     except OSError as e:
         if e.errno == os.errno.ENOENT:
             # handle file not found error.
-            print ( "File not found" )
+            print ( "File not found", end="" )
             done = False
         else:
             # Something else went wrong

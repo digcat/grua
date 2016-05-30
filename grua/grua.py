@@ -23,7 +23,7 @@ def edit_dockerfile(container):
 
 def print_mode():
     Mode = get_mode()
-    print ( Mode['noisy'] + ", " + Mode['destructive'] )
+    print ( Mode['noisy'] + ", " + Mode['destructive'], end="" )
 
 
 
@@ -68,28 +68,28 @@ def run_tests():
 
 def usage():
     Mode = get_mode()
-    print ( "                grua\n                ----" )
-    print ( "              //\\  ___" )
-    print ( "              Y  \\/_/=|" )
-    print ( "             _L  ((|_L_|" )
-    print ( "            (/\)(__(____) cjr\n" )
-    print ( "   grua fill\t\tBuild requisite containers" )
-    print ( "   grua empty\t\tDestroy all the related images" )
-    print ( "   grua refill\t\tEmpty followed by fill - rebuild image(s)" )
-    print ( " " )
-    print ( "   grua stack\t\tRun container composition" )
-    print ( "   grua unstack\t\tStop and remove container composition" )
-    print ( "   grua restack\t\tUnstack and restack container composition" )
-    print ( " " )
-    print ( "   grua enter\t\tEnter container, run bash or opt args" )
-    print ( "   grua status\t\tShow status of containers" )
-    print ( "   grua edit\t\tEdit grua.yaml from within subfolder" )
-    print ( "   grua editd\t\tEdit Dockerfile(s) from within subfolder" )
-    print ( " " )
-    print ( "   grua mode\t\tSet operating mode" )
-    print ( " " )
-    print ( "> grua mode is currently: " + Mode['noisy'] + ", " + Mode['destructive'] )
-    print ( " " )
+    print ( "                grua\n                ----", end="" )
+    print ( "              //\\  ___", end="")
+    print ( "              Y  \\/_/=|", end="")
+    print ( "             _L  ((|_L_|", end="" )
+    print ( "            (/\)(__(____) cjr\n", end="" )
+    print ( "   grua fill\t\tBuild requisite containers", end="" )
+    print ( "   grua empty\t\tDestroy all the related images", end="" )
+    print ( "   grua refill\t\tEmpty followed by fill - rebuild image(s)", end="" )
+    print ( " ", end="" )
+    print ( "   grua stack\t\tRun container composition", end="" )
+    print ( "   grua unstack\t\tStop and remove container composition", end="" )
+    print ( "   grua restack\t\tUnstack and restack container composition", end="" )
+    print ( " ", end="" )
+    print ( "   grua enter\t\tEnter container, run bash or opt args", end="" )
+    print ( "   grua status\t\tShow status of containers", end="" )
+    print ( "   grua edit\t\tEdit grua.yaml from within subfolder", end="" )
+    print ( "   grua editd\t\tEdit Dockerfile(s) from within subfolder", end="" )
+    print ( " ", end="" )
+    print ( "   grua mode\t\tSet operating mode", end="" )
+    print ( " ", end="" )
+    print ( "> grua mode is currently: " + Mode['noisy'] + ", " + Mode['destructive'], end="" )
+    print ( " ", end="" )
 
 
 def process_command(command_list):
@@ -145,7 +145,7 @@ def process_command(command_list):
                 container_status(container)
 
         Mode = get_mode()
-        print ( "Mode is " + Mode['noisy'] + ", " + Mode['destructive'] )
+        print ( "Mode is " + Mode['noisy'] + ", " + Mode['destructive'], end="" )
 
     elif command == "empty":
         for container in reversed(which):
@@ -215,7 +215,7 @@ def process_command(command_list):
                 os.remove(destructFile)
             touch(conserveFile)
         else:
-            print ( MODE_USAGE )
+            print ( MODE_USAGE, end="" )
             return
 
     elif command == "test":
