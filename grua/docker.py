@@ -36,7 +36,7 @@ def fill_container(container, config):
             tag = get_value(config, 'tag')
 
             url = build[4:]
-            print "Cloning " + tag + " from " + url
+            print ( "Cloning " + tag + " from " + url )
             dir = "_grua_" + tag.replace("/", "_")
 
             if os.path.isdir(dir):
